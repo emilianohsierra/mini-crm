@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-CRM · Supabase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <main class="contenedor">
+    <header class="cab">
+      <h1>🗂️ Mini-CRM</h1>
+      <p class="sub">Gestiona tus contactos y clientes</p>
+    </header>
+
+    <!-- ===== LOGIN ===== -->
+    <section id="loginView" class="auth oculto">
+      <h2 class="auth-titulo">Inicia sesión</h2>
+      <div class="campo-auth">
+        <input id="loginEmail" type="email" placeholder="tu@correo.com" autocomplete="email">
+      </div>
+      <div class="campo-auth">
+        <input id="loginPassword" type="password" placeholder="Contraseña" autocomplete="current-password">
+      </div>
+      <button class="auth-principal" onclick="iniciarSesion()">Iniciar sesión</button>
+      <p class="auth-cambiar">¿No tienes cuenta? <a href="#" onclick="irARegistro(event)">Regístrate</a></p>
+      <p id="loginEstado" class="estado"></p>
+    </section>
+
+    <!-- ===== REGISTRO ===== -->
+    <section id="registerView" class="auth oculto">
+      <h2 class="auth-titulo">Crea tu cuenta</h2>
+      <form id="formRegistro" onsubmit="return false;">
+        <div class="campo-auth">
+          <input id="regNombre" type="text" placeholder="Nombre completo" autocomplete="name" oninput="validarRegistro()">
+          <span class="error-campo" id="errNombre"></span>
+        </div>
+        <div class="campo-auth">
+          <input id="regEmail" type="email" placeholder="Correo electrónico" autocomplete="email" oninput="validarRegistro()">
+          <span class="error-campo" id="errEmail"></span>
+        </div>
+        <div class="campo-auth">
+          <input id="regPassword" type="password" placeholder="Contraseña (mín. 8 caracteres)" autocomplete="new-password" oninput="validarRegistro()">
+          <span class="error-campo" id="errPassword"></span>
+        </div>
+        <div class="campo-auth">
+          <input id="regConfirmar" type="password" placeholder="Confirmar contraseña" autocomplete="new-password" oninput="validarRegistro()">
+          <span class="error-campo" id="errConfirmar"></span>
+        </div>
+        <button id="btnCrearCuenta" class="auth-principal" onclick="crearCuenta()" disabled>Crear cuenta</button>
+      </form>
+      <p class="auth-cambiar">¿Ya tienes cuenta? <a href="#" onclick="irALogin(event)">Inicia sesión</a></p>
+      <p id="registroEstado" class="estado"></p>
+    </section>
+
+    <!-- ===== APP (CRM) ===== -->
+    <section id="appView" class="oculto">
+      <div class="barra-usuario">
+        <span id="usuarioEmail" class="usuario-email"></span>
+        <button class="salir" onclick="cerrarSesion()">Cerrar sesión</button>
+      </div>
+
+      <!-- Formulario para agregar contacto -->
+      <form id="formContacto" class="form-contacto" onsubmit="return false;">
+        <h2 class="form-titulo">➕ Nuevo contacto</h2>
+        <div class="form-grid">
+          <input id="cNombre" type="text" placeholder="Nombre *" maxlength="80">
+          <input id="cEmail" type="email" placeholder="Correo" maxlength="120">
+          <input id="cTelefono" type="text" placeholder="Teléfono" maxlength="40">
+          <input id="cEmpresa" type="text" placeholder="Empresa" maxlength="80">
+        </div>
+        <textarea id="cNotas" placeholder="Notas..." maxlength="500" rows="2"></textarea>
+        <button class="btn-agregar" onclick="agregarContacto()">Guardar contacto</button>
+        <p id="formEstado" class="estado"></p>
+      </form>
+
+      <!-- Buscador -->
+      <input id="buscador" class="buscador" type="text" placeholder="🔍 Buscar por nombre, correo o empresa..." oninput="filtrar()">
+
+      <!-- Lista de contactos -->
+      <div id="lista" class="lista-contactos"></div>
+      <p id="estado" class="estado"></p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
