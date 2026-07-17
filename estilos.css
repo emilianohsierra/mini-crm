@@ -1,89 +1,148 @@
 /* ============================================================
-   Mini-CRM · estilos
+   Mini-CRM · Diseño minimalista (Linear / Vercel / Stripe)
    ============================================================ */
+
+/* --- Tema CLARO --- */
 :root {
-  --bg: #eef2fb;
+  --bg: #fafafa;
   --card: #ffffff;
-  --ink: #0f172a;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --accent: #2563eb;
-  --violeta: #7c3aed;
-  --grad: linear-gradient(135deg, #2563eb, #7c3aed);
+  --ink: #0a0a0a;
+  --texto: #171717;
+  --muted: #6b7280;
+  --tenue: #9ca3af;
+  --borde: #e5e7eb;
+  --borde-fuerte: #d4d4d8;
+  --hover: #f4f4f5;
+  --btn-bg: #0a0a0a;
+  --btn-text: #ffffff;
+  --btn-hover: #262626;
+  --primary: #4f46e5;
+  --ring: 0 0 0 3px rgba(79,70,229,0.28);
+  --sombra: 0 1px 2px rgba(10,10,10,0.04), 0 8px 30px rgba(10,10,10,0.06);
+  --err: #dc2626;
 }
+/* --- Tema OSCURO --- */
+body.tema-oscuro {
+  --bg: #0a0a0a;
+  --card: #141414;
+  --ink: #fafafa;
+  --texto: #ededed;
+  --muted: #a1a1aa;
+  --tenue: #71717a;
+  --borde: #262626;
+  --borde-fuerte: #3f3f46;
+  --hover: #1c1c1c;
+  --btn-bg: #fafafa;
+  --btn-text: #0a0a0a;
+  --btn-hover: #e4e4e7;
+  --primary: #818cf8;
+  --ring: 0 0 0 3px rgba(129,140,248,0.32);
+  --sombra: 0 1px 2px rgba(0,0,0,0.4), 0 10px 34px rgba(0,0,0,0.5);
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  font-family: "Inter", system-ui, "Segoe UI", sans-serif;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   background: var(--bg);
-  color: var(--ink);
+  color: var(--texto);
   min-height: 100vh;
-  padding: 48px 20px;
+  padding: 0 20px 64px;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
 }
-.contenedor { max-width: 680px; margin: 0 auto; }
 
-.cab { text-align: center; margin-bottom: 28px; }
-.cab h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; }
-.sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
+/* --- Barra superior --- */
+.topbar { display: flex; justify-content: space-between; align-items: center; max-width: 640px; margin: 0 auto; padding: 22px 2px 0; }
+.marca { font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+.btn-tema { width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--borde); background: var(--card); color: var(--texto); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+.btn-tema:hover { background: var(--hover); }
+
+.contenedor { max-width: 640px; margin: 0 auto; }
+.cab { text-align: center; padding: 40px 0 26px; }
+.cab h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+.sub { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
 
 .estado { text-align: center; color: var(--muted); font-size: 13px; margin-top: 14px; min-height: 18px; }
-.oculto { display: none; }
-.aparece { animation: aparecer 0.35s ease; }
-@keyframes aparecer { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.oculto { display: none !important; }
+.aparece { animation: aparecer 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes aparecer { from { opacity: 0; transform: translateY(8px) scale(0.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-/* ===== Auth (login / registro) ===== */
-.auth { display: flex; flex-direction: column; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 26px; max-width: 420px; margin: 0 auto; }
-.auth-titulo { font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 4px; }
-.auth input, .auth textarea { padding: 13px 15px; border: 1px solid var(--border); border-radius: 11px; font-size: 15px; font-family: inherit; color: var(--ink); background: var(--card); width: 100%; transition: border-color 0.2s, box-shadow 0.2s; }
-.auth input:focus { outline: none; border-color: var(--violeta); box-shadow: 0 0 0 4px rgba(124,58,237,0.15); }
-.auth form { display: flex; flex-direction: column; gap: 12px; }
-.campo-auth { display: flex; flex-direction: column; gap: 3px; }
-.error-campo { font-size: 12.5px; color: #dc2626; min-height: 15px; padding-left: 2px; }
-.auth-principal { padding: 13px; border-radius: 11px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; border: none; background: var(--grad); color: #fff; margin-top: 4px; transition: transform 0.15s, opacity 0.2s; }
-.auth-principal:hover { transform: translateY(-1px); }
-.auth-principal:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.auth-cambiar { text-align: center; font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.auth-cambiar a { color: var(--accent); font-weight: 600; text-decoration: none; margin-left: 4px; }
+/* --- Card auth --- */
+.auth { display: flex; flex-direction: column; gap: 16px; background: var(--card); border: 1px solid var(--borde); border-radius: 18px; padding: 32px; box-shadow: var(--sombra); max-width: 440px; margin: 0 auto; }
+.auth-titulo { font-size: 21px; font-weight: 700; text-align: center; color: var(--ink); letter-spacing: -0.02em; }
+.inicio-sub { text-align: center; color: var(--muted); font-size: 14.5px; margin-top: -6px; margin-bottom: 6px; }
+.auth form { display: flex; flex-direction: column; gap: 16px; }
+.campo-auth { display: flex; flex-direction: column; gap: 6px; }
+.auth input { width: 100%; padding: 12px 14px; border: 1px solid var(--borde); border-radius: 10px; font-size: 14.5px; font-family: inherit; color: var(--ink); background: var(--card); transition: border-color 0.15s, box-shadow 0.15s; }
+.auth input::placeholder { color: var(--tenue); }
+.auth input:hover { border-color: var(--borde-fuerte); }
+.auth input:focus { outline: none; border-color: var(--primary); box-shadow: var(--ring); }
+
+.campo-pass { position: relative; display: flex; align-items: center; }
+.campo-pass input { padding-right: 44px; }
+.toggle-pass { position: absolute; right: 6px; width: 32px; height: 32px; border: none; background: none; cursor: pointer; font-size: 15px; opacity: 0.6; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s, background 0.2s; }
+.toggle-pass:hover { opacity: 1; background: var(--hover); }
+
+.fuerza { display: flex; align-items: center; gap: 8px; }
+.fuerza-barra { flex: 1; height: 5px; border-radius: 999px; background: var(--borde); overflow: hidden; }
+.fuerza-fill { height: 100%; width: 0; border-radius: 999px; transition: width 0.25s, background 0.25s; }
+.fuerza-texto { font-size: 11.5px; font-weight: 600; color: var(--tenue); min-width: 46px; text-align: right; }
+
+.error-campo { font-size: 12.5px; color: var(--err); min-height: 15px; }
+
+/* --- Botones auth --- */
+.auth-principal { width: 100%; padding: 12px; border-radius: 10px; font-size: 14.5px; font-weight: 600; cursor: pointer; font-family: inherit; border: 1px solid var(--btn-bg); background: var(--btn-bg); color: var(--btn-text); transition: background 0.18s, transform 0.1s; }
+.auth-principal:hover { background: var(--btn-hover); border-color: var(--btn-hover); }
+.auth-principal:active { transform: translateY(1px); }
+.auth-principal:disabled { opacity: 0.45; cursor: not-allowed; }
+.auth-secundario { width: 100%; padding: 12px; border-radius: 10px; font-size: 14.5px; font-weight: 600; cursor: pointer; font-family: inherit; background: var(--card); color: var(--ink); border: 1px solid var(--borde); transition: background 0.18s, border-color 0.18s; }
+.auth-secundario:hover { background: var(--hover); border-color: var(--borde-fuerte); }
+.auth-cambiar { text-align: center; font-size: 13px; color: var(--muted); }
+.auth-cambiar a { color: var(--ink); font-weight: 600; text-decoration: none; }
 .auth-cambiar a:hover { text-decoration: underline; }
 
-/* ===== Barra de usuario ===== */
+/* --- Barra de usuario --- */
 .barra-usuario { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.usuario-email { font-size: 13px; color: var(--muted); font-weight: 600; }
-.salir { background: none; border: 1px solid var(--border); color: var(--muted); padding: 7px 13px; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: border-color 0.2s, color 0.2s; }
-.salir:hover { border-color: var(--violeta); color: var(--violeta); }
+.usuario-email { font-size: 13px; color: var(--muted); font-weight: 500; }
+.salir { background: var(--card); border: 1px solid var(--borde); color: var(--texto); padding: 8px 13px; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.18s; }
+.salir:hover { background: var(--hover); }
 
-/* ===== Formulario de contacto ===== */
-.form-contacto { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 22px; }
-.form-titulo { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.form-contacto input, .form-contacto textarea {
-  padding: 12px 14px; border: 1px solid var(--border); border-radius: 11px;
-  font-size: 14.5px; font-family: inherit; color: var(--ink); background: var(--card); width: 100%;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
+/* --- Formulario de contacto --- */
+.form-contacto { background: var(--card); border: 1px solid var(--borde); border-radius: 16px; padding: 22px; margin-bottom: 20px; box-shadow: var(--sombra); }
+.form-titulo { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--ink); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.form-contacto input, .form-contacto textarea { width: 100%; padding: 11px 13px; border: 1px solid var(--borde); border-radius: 10px; font-size: 14px; font-family: inherit; color: var(--ink); background: var(--card); transition: border-color 0.15s, box-shadow 0.15s; }
 .form-contacto textarea { resize: vertical; margin-bottom: 12px; }
-.form-contacto input:focus, .form-contacto textarea:focus { outline: none; border-color: var(--violeta); box-shadow: 0 0 0 4px rgba(124,58,237,0.15); }
-.btn-agregar { width: 100%; background: var(--grad); color: #fff; border: none; padding: 13px; border-radius: 11px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: transform 0.15s; }
-.btn-agregar:hover { transform: translateY(-1px); }
+.form-contacto input:focus, .form-contacto textarea:focus { outline: none; border-color: var(--primary); box-shadow: var(--ring); }
+.form-acciones { display: flex; gap: 10px; }
+.btn-agregar { flex: 1; background: var(--btn-bg); color: var(--btn-text); border: none; padding: 12px; border-radius: 10px; font-size: 14.5px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.18s; }
+.btn-agregar:hover { background: var(--btn-hover); }
+.btn-cancelar { background: var(--card); color: var(--texto); border: 1px solid var(--borde); padding: 12px 18px; border-radius: 10px; font-size: 14.5px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.18s; }
+.btn-cancelar:hover { background: var(--hover); }
 
-/* ===== Buscador ===== */
-.buscador { width: 100%; padding: 13px 16px; border: 1px solid var(--border); border-radius: 12px; font-size: 15px; font-family: inherit; background: var(--card); color: var(--ink); margin-bottom: 18px; }
-.buscador:focus { outline: none; border-color: var(--violeta); box-shadow: 0 0 0 4px rgba(124,58,237,0.15); }
+/* --- Buscador --- */
+.buscador { width: 100%; padding: 12px 15px; border: 1px solid var(--borde); border-radius: 10px; font-size: 14.5px; font-family: inherit; background: var(--card); color: var(--ink); margin-bottom: 16px; transition: border-color 0.15s, box-shadow 0.15s; }
+.buscador:focus { outline: none; border-color: var(--primary); box-shadow: var(--ring); }
 
-/* ===== Lista de contactos (tarjetas) ===== */
-.lista-contactos { display: flex; flex-direction: column; gap: 12px; }
-.tarjeta-contacto { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; animation: aparecer 0.25s ease; }
-.c-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.c-nombre { font-size: 16px; font-weight: 700; color: var(--ink); }
-.c-datos { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13.5px; color: var(--muted); }
+/* --- Lista de contactos --- */
+.lista-contactos { display: flex; flex-direction: column; gap: 10px; }
+.tarjeta-contacto { background: var(--card); border: 1px solid var(--borde); border-radius: 12px; padding: 15px 17px; animation: aparecer 0.25s ease; }
+.c-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 8px; }
+.c-nombre { font-size: 15.5px; font-weight: 700; color: var(--ink); }
+.c-acciones { display: flex; gap: 2px; flex: 0 0 auto; }
+.c-datos { display: flex; flex-wrap: wrap; gap: 5px 16px; font-size: 13px; color: var(--muted); }
 .c-datos span { display: inline-flex; align-items: center; gap: 4px; }
-.c-notas { font-size: 13.5px; color: var(--ink); margin-top: 8px; background: #f8fafc; border-radius: 8px; padding: 8px 10px; white-space: pre-wrap; }
-.c-borrar { background: none; border: none; cursor: pointer; font-size: 16px; opacity: 0.55; transition: opacity 0.2s; }
-.c-borrar:hover { opacity: 1; }
-.vacio { text-align: center; color: var(--muted); padding: 34px 0; font-size: 14.5px; }
+.c-notas { font-size: 13px; color: var(--texto); margin-top: 8px; background: var(--hover); border-radius: 8px; padding: 8px 10px; white-space: pre-wrap; }
+.icono-btn { background: none; border: none; cursor: pointer; font-size: 14px; opacity: 0.5; transition: opacity 0.2s, background 0.2s; padding: 5px; border-radius: 6px; }
+.icono-btn:hover { opacity: 1; background: var(--hover); }
+.vacio { text-align: center; color: var(--muted); padding: 40px 0; font-size: 14px; }
 
-/* ===== Responsive ===== */
+/* --- Foco visible (accesibilidad) --- */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: none; box-shadow: var(--ring); border-radius: 8px; }
+
+/* --- Responsive --- */
 @media (max-width: 520px) {
   .form-grid { grid-template-columns: 1fr; }
-  .cab h1 { font-size: 27px; }
+  .cab h1 { font-size: 23px; }
+  .auth { padding: 24px; }
 }

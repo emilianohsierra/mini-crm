@@ -10,11 +10,24 @@
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
+  <nav class="topbar">
+    <span class="marca">🗂️ Mini-CRM</span>
+    <button id="btnTema" class="btn-tema" onclick="cambiarTema()" title="Cambiar tema" aria-label="Cambiar tema">🌙</button>
+  </nav>
+
   <main class="contenedor">
     <header class="cab">
-      <h1>🗂️ Mini-CRM</h1>
+      <h1>Mini-CRM</h1>
       <p class="sub">Gestiona tus contactos y clientes</p>
     </header>
+
+    <!-- ===== BIENVENIDA (botones) ===== -->
+    <section id="inicioView" class="auth oculto">
+      <h2 class="auth-titulo">Bienvenido</h2>
+      <p class="inicio-sub">Gestiona tus contactos en un solo lugar.</p>
+      <button class="auth-principal" onclick="irALogin(event)">Iniciar sesión</button>
+      <button class="auth-secundario" onclick="irARegistro(event)">Registrarme</button>
+    </section>
 
     <!-- ===== LOGIN ===== -->
     <section id="loginView" class="auth oculto">
@@ -23,10 +36,13 @@
         <input id="loginEmail" type="email" placeholder="tu@correo.com" autocomplete="email">
       </div>
       <div class="campo-auth">
-        <input id="loginPassword" type="password" placeholder="Contraseña" autocomplete="current-password">
+        <div class="campo-pass">
+          <input id="loginPassword" type="password" placeholder="Contraseña" autocomplete="current-password">
+          <button type="button" class="toggle-pass" onclick="togglePass('loginPassword', this)" aria-label="Mostrar u ocultar contraseña">👁️</button>
+        </div>
       </div>
       <button class="auth-principal" onclick="iniciarSesion()">Iniciar sesión</button>
-      <p class="auth-cambiar">¿No tienes cuenta? <a href="#" onclick="irARegistro(event)">Regístrate</a></p>
+      <p class="auth-cambiar">¿No tienes cuenta? <a href="#" onclick="irARegistro(event)">Regístrate</a> · <a href="#" onclick="irAInicio(event)">← Volver</a></p>
       <p id="loginEstado" class="estado"></p>
     </section>
 
@@ -43,16 +59,26 @@
           <span class="error-campo" id="errEmail"></span>
         </div>
         <div class="campo-auth">
-          <input id="regPassword" type="password" placeholder="Contraseña (mín. 8 caracteres)" autocomplete="new-password" oninput="validarRegistro()">
+          <div class="campo-pass">
+            <input id="regPassword" type="password" placeholder="Contraseña (mín. 8 caracteres)" autocomplete="new-password" oninput="validarRegistro()">
+            <button type="button" class="toggle-pass" onclick="togglePass('regPassword', this)" aria-label="Mostrar u ocultar contraseña">👁️</button>
+          </div>
+          <div class="fuerza">
+            <div class="fuerza-barra"><div id="fuerzaFill" class="fuerza-fill"></div></div>
+            <span id="fuerzaTexto" class="fuerza-texto"></span>
+          </div>
           <span class="error-campo" id="errPassword"></span>
         </div>
         <div class="campo-auth">
-          <input id="regConfirmar" type="password" placeholder="Confirmar contraseña" autocomplete="new-password" oninput="validarRegistro()">
+          <div class="campo-pass">
+            <input id="regConfirmar" type="password" placeholder="Confirmar contraseña" autocomplete="new-password" oninput="validarRegistro()">
+            <button type="button" class="toggle-pass" onclick="togglePass('regConfirmar', this)" aria-label="Mostrar u ocultar contraseña">👁️</button>
+          </div>
           <span class="error-campo" id="errConfirmar"></span>
         </div>
         <button id="btnCrearCuenta" class="auth-principal" onclick="crearCuenta()" disabled>Crear cuenta</button>
       </form>
-      <p class="auth-cambiar">¿Ya tienes cuenta? <a href="#" onclick="irALogin(event)">Inicia sesión</a></p>
+      <p class="auth-cambiar">¿Ya tienes cuenta? <a href="#" onclick="irALogin(event)">Inicia sesión</a> · <a href="#" onclick="irAInicio(event)">← Volver</a></p>
       <p id="registroEstado" class="estado"></p>
     </section>
 
@@ -63,9 +89,8 @@
         <button class="salir" onclick="cerrarSesion()">Cerrar sesión</button>
       </div>
 
-      <!-- Formulario para agregar contacto -->
       <form id="formContacto" class="form-contacto" onsubmit="return false;">
-        <h2 class="form-titulo">➕ Nuevo contacto</h2>
+        <h2 class="form-titulo" id="formTitulo">Nuevo contacto</h2>
         <div class="form-grid">
           <input id="cNombre" type="text" placeholder="Nombre *" maxlength="80">
           <input id="cEmail" type="email" placeholder="Correo" maxlength="120">
@@ -73,14 +98,15 @@
           <input id="cEmpresa" type="text" placeholder="Empresa" maxlength="80">
         </div>
         <textarea id="cNotas" placeholder="Notas..." maxlength="500" rows="2"></textarea>
-        <button class="btn-agregar" onclick="agregarContacto()">Guardar contacto</button>
+        <div class="form-acciones">
+          <button class="btn-agregar" id="btnGuardarContacto" onclick="guardarContacto()">Guardar contacto</button>
+          <button class="btn-cancelar oculto" id="btnCancelarEdicion" onclick="cancelarEdicionContacto()">Cancelar</button>
+        </div>
         <p id="formEstado" class="estado"></p>
       </form>
 
-      <!-- Buscador -->
-      <input id="buscador" class="buscador" type="text" placeholder="🔍 Buscar por nombre, correo o empresa..." oninput="filtrar()">
+      <input id="buscador" class="buscador" type="text" placeholder="🔍 Buscar por nombre, correo o empresa..." oninput="filtrar()" aria-label="Buscar contacto">
 
-      <!-- Lista de contactos -->
       <div id="lista" class="lista-contactos"></div>
       <p id="estado" class="estado"></p>
     </section>
